@@ -18,8 +18,11 @@
         </div>
         <div class="weather-box">
           <div class="temp"> {{Math.round(weather.main.temp)}}°c </div>
-          <div class="weather">{{ weather.weather[0].main}}</div>
+          <div class="weather">{{ weather.weather[0].main}} - {{weather.weather[0].description}}</div>
         </div>
+        <div class="others">Humidity ~ {{weather.main.humidity}}</div>
+        <div class="others">Pressure ~ {{weather.main.pressure}}</div>
+        <div class="others">Wind Speed ~ {{weather.wind.speed}}</div>
       </div>
     </main>
   </div>
@@ -40,14 +43,15 @@
     methods:{
     fetchWeather(){
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
-          .then(res => {
-          return res.json();
-        }).then(this.setResults);
+          .then(res => res.json())
+          .then(this.setResults);
         this.query = ''
     },
+
       setResults(results){
       this.weather = results;
       },
+
       dateBuilder(){
       let d = new Date();
       let months = ["January", "February", "March", "April", "May", "June", "July",
@@ -62,6 +66,7 @@
 
       return `${day} ${date} ${month} ${year}`;
       }
+      
     }
 }
 </script>
@@ -77,7 +82,7 @@
   }
 
   #app {
-    background-image: url('/assets/cold-bg.jpg');
+    background-image: url('./assets/cold-bg.jpg');
     background-size: cover;
     background-position: bottom;
     transition: 0.4s;
@@ -156,4 +161,9 @@
     font-style: italic;
     text-shadow: 3px 6px rgba(0,0,0,0.25);
   }
+  .others{
+  color: #FFF;
+  text-align: center;
+  font-size: 20px;
+}
 </style>
